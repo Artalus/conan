@@ -78,7 +78,9 @@ class Workspace:
         return self.conan_data.get("products", [])
 
     def load_conanfile(self, conanfile_path):
-        conanfile_path = os.path.join(self.folder, conanfile_path, "conanfile.py")
+        conanfile_path = os.path.join(self.folder, conanfile_path)
+        if os.path.isdir(conanfile_path):
+            conanfile_path = os.path.join(conanfile_path, "conanfile.py")
         from conans.client.loader import ConanFileLoader
         from conan.internal.cache.home_paths import HomePaths
         from conan.internal.conan_app import ConanFileHelpers, CmdWrapper
