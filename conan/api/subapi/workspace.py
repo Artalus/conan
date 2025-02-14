@@ -109,7 +109,9 @@ class WorkspaceAPI:
         editables = self._ws.editables()
         editables = {RecipeReference.loads(r): v.copy() for r, v in editables.items()}
         for v in editables.values():
-            path = os.path.normpath(os.path.join(self._folder, v["path"], "conanfile.py"))
+            path = os.path.normpath(os.path.join(self._folder, v["path"]))
+            if os.path.isdir(path):
+                path = os.path.join(path, "conanfile.py")
             if not os.path.isfile(path):
                 raise ConanException(f"Workspace editable not found: {path}")
             v["path"] = path
